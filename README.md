@@ -38,6 +38,7 @@
 ## Service Configuration
 
 - **Modify the service file** to point to the correct path and environment:
+    - Define a ApiKey for the service in the `API_KEY` variable. This must be the same as the one send in the request headers.
     - `~/projects/spreadsheet-ms/app/assets/files/ancp-spreadsheet-ms`
     - `ISPRODUCTION` -> defines if it is in production or not.
     - Ensure `MS_USER` is correct and that the paths are correct (if using recommended paths, there is no need to change).

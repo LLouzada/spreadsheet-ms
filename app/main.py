@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, abort
 import openpyxl
 import os
 
@@ -46,6 +46,15 @@ def generate_neogen_order_endpoint():
         # Deletar o arquivo após o envio
         if os.path.exists(file_path):
             os.remove(file_path)
+            
+@app.before_request
+def check_request():
+    if request.remote_addr != '127.0.0.1': #TODO - check if this is working
+        return 'Acesso negado!!', 403
+    
+    token = request.headers.get('X-API-KEY')
+    if token != os.environ.get('MS_API_KEY'): 
+        abort(403)  
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

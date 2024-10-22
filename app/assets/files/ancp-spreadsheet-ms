@@ -12,7 +12,8 @@
 # Description:       MicroService for ANCP Spreadsheet handling
 ### END INIT INFO
 
-ISPRODUCTION=false
+API_KEY="your_api_key" # Replace with your actual API key
+ISPRODUCTION=false     
 
 # Path to your conda environment (one for production and one for development)
 if [[ $ISPRODUCTION = true ]]
@@ -31,6 +32,7 @@ case "$1" in
         echo "Starting ancp-spreadsheet-ms..."
         source "$CONDA_SH_PATH"  # Sourcing the conda setup
         conda activate "$CONDA_ENV_NAME"  # Activate the conda environment
+        export MS_API_KEY="$API_KEY"
         nohup python3 "$FLASK_APP" >> /var/log/ancp-spreadsheet-ms.log 2>&1 &
         ;;
     stop)
