@@ -17,18 +17,21 @@ ISPRODUCTION=false
 # Path to your conda environment (one for production and one for development)
 if [[ $ISPRODUCTION = true ]]
 then
-    CONDA_ENV_PATH="/home/ancp/miniconda3/envs/ancp-spreadsheet-ms"
-    FLASK_APP="/home/ancp/projects/spreadsheet-ms/app/main.py"
+    MS_USER="ancp"
 else
-    CONDA_ENV_PATH="/home/llouzada/miniconda3/envs/ancp-spreadsheet-ms-dev"
-    FLASK_APP="/home/llouzada/projects/spreadsheet-ms/app/main.py"
+    MS_USER="llouzada"
 fi
+
+FLASK_APP="/home/$MS_USER/projects/spreadsheet-ms/app/main.py"
+CONDA_SH_PATH="/home/$MS_USER/miniconda3/etc/profile.d/conda.sh"
+CONDA_ENV_NAME="spreadsheet-ms-env"
 
 case "$1" in
     start)
         echo "Starting ancp-spreadsheet-ms..."
-        source "$CONDA_ENV_PATH/bin/activate" spreadsheet-ms-env
-        nohup python "$FLASK_APP" >> /var/log/ancp-spreadsheet-ms.log 2>&1 &
+        source "$CONDA_SH_PATH"  # Sourcing the conda setup
+        conda activate "$CONDA_ENV_NAME"  # Activate the conda environment
+        nohup python3 "$FLASK_APP" >> /var/log/ancp-spreadsheet-ms.log 2>&1 &
         ;;
     stop)
         echo "Stopping ancp-spreadsheet-ms..."
