@@ -1,0 +1,47 @@
+#!/bin/bash
+# ANCP Spreadsheet MicroService
+# /etc/init.d/ancp-spreadsheet-ms
+
+### BEGIN INIT INFO
+# Provides:          ANCP Spreadsheet MicroService
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: ANCP Spreadsheet MicroService Start/Stop Script
+# Description:       MicroService for ANCP Spreadsheet handling
+### END INIT INFO
+
+ISPRODUCTION=false
+
+# Path to your conda environment (one for production and one for development)
+if [[ $ISPRODUCTION = true ]]
+then
+    CONDA_ENV_PATH="/home/ancp/miniconda3/envs/ancp-spreadsheet-ms"
+    FLASK_APP="/home/ancp/projects/spreadsheet-ms/app/main.py"
+else
+    CONDA_ENV_PATH="/home/llouzada/miniconda3/envs/ancp-spreadsheet-ms-dev"
+    FLASK_APP="/home/llouzada/projects/spreadsheet-ms/app/main.py"
+fi
+
+case "$1" in
+    start)
+        echo "Starting ancp-spreadsheet-ms..."
+        source "$CONDA_ENV_PATH/bin/activate" spreadsheet-ms-env
+        nohup python "$FLASK_APP" >> /var/log/ancp-spreadsheet-ms.log 2>&1 &
+        ;;
+    stop)
+        echo "Stopping ancp-spreadsheet-ms..."
+        pkill -f "$FLASK_APP"
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/ancp-spreadsheet-ms {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
