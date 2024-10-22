@@ -1,5 +1,0 @@
-prune openpyxl/tests
-include LICENCE
-include AUTHORS
-include README
-include CHANGES

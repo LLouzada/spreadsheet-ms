@@ -39,8 +39,13 @@ def generate_neogen_order_endpoint():
     data = request.get_json()
     file_path = generate_neogen_order(data)
     
-    # Enviar o arquivo como resposta
-    return send_file(file_path, as_attachment=True)
+    try:
+        # Enviar o arquivo como resposta
+        return send_file(file_path, as_attachment=True)
+    finally:
+        # Deletar o arquivo após o envio
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
