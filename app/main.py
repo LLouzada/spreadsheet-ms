@@ -9,7 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 def generate_neogen_order(data):
     # Lê o arquivo de template
-    template_file = os.path.join(current_dir, 'assets/templates', 'neogen_order_template.xlsx')
+    template_file = os.path.join(current_dir, 'assets/templates', 'neogen_order_template_v4.xlsx')
     wb = openpyxl.load_workbook(template_file)
     
     faturamentoSheet = wb['Faturamento']
@@ -27,7 +27,7 @@ def generate_neogen_order(data):
         amostrasSheet[cell] = value
         
     # Gerar o nome do arquivo e salvar o Excel gerado
-    filename = data['data'][0]['filename']
+    filename = data['data'][0]['filename'] 
     file_path = os.path.join(current_dir, 'assets/orders' , filename)
     wb.save(file_path)
     
