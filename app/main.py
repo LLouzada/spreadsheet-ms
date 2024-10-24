@@ -49,12 +49,9 @@ def generate_neogen_order_endpoint():
             
 @app.before_request
 def check_request():
-    if request.remote_addr != '127.0.0.1': #TODO - check if this is working
-        return 'Acesso negado!!', 403
-    
     token = request.headers.get('X-API-KEY')
-    if token != os.environ.get('MS_API_KEY'): 
-        abort(403)  
+    if request.remote_addr != '127.0.0.1' or token != os.environ.get('MS_API_KEY'): 
+        return 'Acesso negado!!', 403
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
