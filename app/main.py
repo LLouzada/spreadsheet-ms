@@ -138,15 +138,13 @@ def generate_neogen_order_endpoint():
         # Enviar o arquivo como resposta
         return send_file(file_path, as_attachment=True)
     finally:
-        print('file_path: ', file_path)
-        # Deletar o arquivo após o envio
-        # if os.path.exists(file_path):
-        #     os.remove(file_path)
+        if os.path.exists(file_path):
+            os.remove(file_path)
             
 @app.before_request
 def check_request():
     token = request.headers.get('X-API-KEY')
-    if request.remote_addr != '127.0.0.1': 
+    if request.remote_addr != '127.0.0.1' or token != os.environ.get('MS_API_KEY'):
         return 'Acesso negado!!', 403
 
 if __name__ == '__main__':
