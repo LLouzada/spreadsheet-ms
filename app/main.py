@@ -11,7 +11,7 @@ app = Flask(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 def generate_neogen_order(data):
-    template_file = os.path.join(current_dir, 'assets/templates', 'neogen_order_template.xlsx')
+    template_file = os.path.join(current_dir, 'assets/templates', 'neogen_order_template_final.xlsx')
     wb = load_workbook(template_file)
     ws_faturamento = wb['Faturamento']
 
