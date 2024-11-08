@@ -120,7 +120,10 @@ def generate_neogen_order(data):
     rich_text = CellRichText(seventh_col_name_block, seventh_col_desc_block)
     ws_amostras['N6'].value = rich_text
     ws_amostras['O6'].value = rich_text
-
+    
+    # Fixar a tab "Envio para impressão" como ativa
+    ws_envio = wb['Envio para impressão']
+    wb.active = ws_envio
 
     filename = data['data'][0]['filename']
     file_path = os.path.join(current_dir, 'assets/orders', filename)
